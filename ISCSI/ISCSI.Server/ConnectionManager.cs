@@ -6,7 +6,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Utilities;
 
 namespace ISCSI.Server
@@ -41,7 +40,7 @@ namespace ISCSI.Server
         {
             // Wait for pending I/O to complete.
             connection.RunningSCSICommands.WaitUntilZero();
-            connection.SendQueue.Stop();
+            connection.SendQueue.Abort();
             SocketUtils.ReleaseSocket(connection.ClientSocket);
             if (connection.Session != null)
             {
