@@ -40,8 +40,15 @@ namespace ISCSIConsole
                 item.SubItems.Add(sizeString);
                 if (Environment.OSVersion.Version.Major >= 6)
                 {
-                    bool isOnline = physicalDisk.GetOnlineStatus();
-                    string status = isOnline ? "Online" : "Offline";
+                    bool? isOnline = null;
+                    try
+                    {
+                        isOnline = physicalDisk.GetOnlineStatus();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    string status = isOnline.HasValue ? (isOnline.Value ? "Online" : "Offline") : "N/A";
                     item.SubItems.Add(status);
                 }
                 item.Tag = physicalDisk;
@@ -66,7 +73,17 @@ namespace ISCSIConsole
                 if (Environment.OSVersion.Version.Major >= 6)
                 {
                     bool isDiskReadOnly;
-                    bool isOnline = selectedDisk.GetOnlineStatus(out isDiskReadOnly);
+                    bool isOnline;
+                    try
+                    {
+                        isOnline = selectedDisk.GetOnlineStatus(out isDiskReadOnly);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error");
+                        return;
+                    }
+
                     if (isDiskReadOnly)
                     {
                         MessageBox.Show("The selected disk is set to readonly", "Error");
