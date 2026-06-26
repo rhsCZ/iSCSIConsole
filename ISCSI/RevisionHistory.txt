@@ -162,3 +162,8 @@ Revision History:
         ISCSIClient: Improve client response time when server disconnects.
         ISCSIClient: Throw InvalidOperationException instead of NullReferenceException if logout is attempted without login.
         ISCSIClient: Add ISID, TSIH and CID properties.
+
+1.5.6 - UI: SelectPhysicalDiskForm: Handle failure to get online status.
+        ISCSIClient: Update IsConnected on EndReceive socket exception.
+        ISCSIClient: PingTarget: Validate payload size.
+        ISCSIClient: Correct ListTargets exception message.
