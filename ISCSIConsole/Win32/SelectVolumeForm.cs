@@ -64,7 +64,17 @@ namespace ISCSIConsole
                 }
                 if (!chkReadOnly.Checked)
                 {
-                    bool skipLock = (Environment.OSVersion.Version.Major >= 6 && VolumeInfo.IsOffline(selectedVolume));
+                    bool skipLock;
+                    try
+                    {
+                        skipLock = Environment.OSVersion.Version.Major >= 6 && VolumeInfo.IsOffline(selectedVolume);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error");
+                        return;
+                    }
+
                     if (!skipLock)
                     {
                         Guid? volumeGuid = WindowsVolumeHelper.GetWindowsVolumeGuid(selectedVolume);
